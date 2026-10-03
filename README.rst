@@ -22,7 +22,7 @@ Claude and ChatGPT, in addition to models by other major providers.
 The setup files are the same as in the first example: the arrow geometry, a
 template namelist, and a master JSON file defining a four-case run matrix over
 Mach number and angle of attack. There are only slight differences from the
-`pyfun01-arrow <https://github.com/nasa-ddalle/pyfun01-arrow>` example. The
+`pyfun01-arrow <https://github.com/nasa-ddalle/pyfun01-arrow>`_ example. The
 most noteworthy differences is that the run matrix is defined in a file rather
 than in the JSON.
 
@@ -51,6 +51,22 @@ Then we run a special command to prepare to use CAPE in fully-autonomous mode.
 
         $ cape init-agent
 
+This creates two files: :ref:`AGENTS.md <agents-md>` and ``ANALYSIS.md``.
+
+The contents of ``AGENTS.md`` are quite simple:
+
+    .. code-block:: markdown
+        :caption: AGENTS.md
+        :name: agents-md
+
+        ## CAPE
+
+        This repository uses CAPE to control one or more CFD run matrices.
+
+        Run `cape data-path AGENTS.md` and read the referenced CAPE agent instructions
+        before performing CAPE-related tasks.
+
+        The analysis-specific objective and practices are in `ANALYSIS.md`
 
     .. figure:: figs/opencode-startup.png
         :width: 6in
