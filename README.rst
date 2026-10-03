@@ -13,11 +13,44 @@ Ok, so there is a little bit more to the tutorial than that! First of all,
 you will need an OpenAI-compatible endpoint to be used to power the model. This
 can be a locally served model using `llama.cpp <https://llama-cpp.com/>`_,
 `vLLM <https://vllm.ai>`_ or other tools. It can also be a cloud-based endpoint
-like `https://chatgpt.com/api/v1`_
+like `https://chatgpt.com/api/v1 <https://chatgpt.com/api/v1>`_. Except you
+should not use a public enterprise endpoint like the main Chat GPT because
+FUN3D is subject to Export Administration Regulations. Many institutions,
+including NASA, have approved services that provide API endpoints to both
+Claude and ChatGPT, in addition to models by other major providers.
 
 The setup files are the same as in the first example: the arrow geometry, a
 template namelist, and a master JSON file defining a four-case run matrix over
-Mach number and angle of attack.
+Mach number and angle of attack. There are only slight differences from the
+`pyfun01-arrow <https://github.com/nasa-ddalle/pyfun01-arrow>` example. The
+most noteworthy differences is that the run matrix is defined in a file rather
+than in the JSON.
+
+Secondly, this demo uses `OpenCode <https://opencode.ai/>`_. Installing
+OpenCode and gaining access to an approved or internal API endpoint are
+prerequisites to this tutorial.
+
+The tutorial will demonstrate how well the fully-autonomous CAPE in OpenCode
+approach works with a small model
+(`Gemma 4 31B <https://huggingface.co/google/gemma-4-31B-it>`_) and a more
+capable one in the GPT 5.1 class.
+
+Step 1: Initializing CAPE
+----------------------------
+
+Before opening OpenCode, we, as in the other CAPE tutorials, start by running
+
+    .. code-block:: console
+
+        $ ./copy-files.py
+        $ cd work/
+
+Then we run a special command to prepare to use CAPE in fully-autonomous mode.
+
+    .. code-block:: console
+
+        $ cape init-agent
+
 
     .. figure:: figs/opencode-startup.png
         :width: 6in
