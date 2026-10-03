@@ -53,7 +53,7 @@
             "restart_read": ["off", "on"]
         },
         "inviscid_flux_method": {
-            "first_order_iterations": [0, 250],
+            "first_order_iterations": [250, 0],
             "flux_construction": "vanleer",
             "flux_construction_lhs": "vanleer",
             "flux_limiter": "hvanalbada",

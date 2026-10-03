@@ -14,10 +14,11 @@ cape -I 0 --no-start
 to confirm that it prepares a valid-looking case folder. Fix any obvious
 issues before continuing.
 
-Then copy the JSON file to arrow01.json and the run matrix to arrow01.csv. In
-`arrow01.csv`, set the "config" from "arrow" -> "arrow01" to avoid clashing
-with the first --no-start case. In `arrow01.json` modify the "PBS" section to
-use
+Then copy the JSON file to arrow01.json and the run matrix to arrow01.csv. Make
+sure the new JSON file uses the new run matrix. In `arrow01.csv`, set the
+"config" from "arrow" -> "arrow01" to avoid clashing.
+
+In `arrow01.json` modify the "PBS" section to use
 
 ```json
 {
@@ -42,12 +43,15 @@ to check that everything looks good. Once that looks like a good setup, submit
 all 4 cases as new jobs. Then enter the main CAPE agentic loop:
 
 * run `cape wait -n 2`
-* take action on the two cases it returns
-* repeat
+* take action on those two cases
+    - for DONE cases, generate the report
+    - check the completion criteria; run `cape extend` if not
+* repeat until all cases are approved
 
 # Completion criteria
 
 This is a simple case, so we hope to drive all cases to steady-state RANS
-converged solutions. Do not extend if there have already been 2500 or more
-iterations run.
+converged solutions. Evaluate if the force and moment histories appear to be
+flat and the residuals are not growing significantly. Do not extend if there
+have already been 2500 or more iterations run.
 
