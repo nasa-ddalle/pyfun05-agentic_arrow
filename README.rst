@@ -142,27 +142,50 @@ run repo, OpenCode tells Gemma to ask for permission first.
 
         OpenCode asking for permission before proceeding
 
+Gemma then went about following the procedure. The example procedure outlined
+in ``ANALYSIS.md`` is purposefully very tentative so that models might be able
+to complete part of it even if the overall procedure is too challenging for the
+model to complete in one shot. It called ``cape --help`` (despite the
+``AGENTS.md`` saying to run ``cape -h``, interestingly) to learn more about the
+CAPE CLI.
+
     .. figure:: figs/opencode15-inspect-help.png
         :width: 6in
 
         Inspecting the tools and their options
 
-It then worked through the task, submitting the cases to the queue.
+Without performing too much analysis, it started submitting cases to the queue.
+After submitting the cases, it uses the ``cape wait`` command (as instructed)
+to wait for 2 cases (``-n 2``) to require action. This command prevents the
+model from staying active while the CFD is running normally.
 
     .. figure:: figs/opencode20-submit.png
         :width: 6in
 
         Submitting the cases
 
+Expanding the *Thinking* block just before the ``cape wait`` command, you can
+see Gemma's internal reasoning. It's not too sophisticated, but it gets the job
+done in this case.
+
     .. figure:: figs/opencode21-thought.png
         :width: 6in
 
         The agent thinking through the next step
 
+Without much fanfare, after the cases completed (meaning their status was
+``DONE`` when ``cape wait`` ended), Gemma simply approved each case. It
+generated the PDF report along the way but failed to make good use of it. (This
+will likely be better by the time you read this tutorial as CAPE makes viewing
+the subfigures easier for small-ish models.)
+
     .. figure:: figs/opencode25-done-ish.png
         :width: 6in
 
         Declaring the runs done
+
+In addition, Gemma forgot the final step (``cape extract``), so there was a
+second prompt reminding it to do so.
 
     .. figure:: figs/opencode30-extract.png
         :width: 6in
@@ -173,8 +196,8 @@ It then worked through the task, submitting the cases to the queue.
 Using Advanced Models
 ---------------------
 
-The second attempt used an advanced frontier model, which planned more
-carefully before acting.
+The second attempt used a more advanced model, though still far from the 2026
+frontier, which planned more carefully before acting.
 
     .. figure:: figs/opencode110-plan.png
         :width: 6in
