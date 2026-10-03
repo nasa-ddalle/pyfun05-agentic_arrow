@@ -197,46 +197,73 @@ Using Advanced Models
 ---------------------
 
 The second attempt used a more advanced model, though still far from the 2026
-frontier, which planned more carefully before acting.
+frontier, which planned more carefully before acting. It even created a *Todo*
+list, which is one of the tools made available by OpenCode.
 
     .. figure:: figs/opencode110-plan.png
         :width: 6in
 
         Planning the work up front
 
+The instructions include bits about forking the template ``pyFun.json`` file
+and making edits, which more advanced models handle with *ease*. And OpenCode
+prevents a nice visual presentation of these edits (though you might have to be
+paying close attention to even notice it).
+
     .. figure:: figs/opencode116-edit.png
         :width: 6in
 
         Editing the input files
 
-At one point the agent got confused, but it recovered on its own.
+The agent also picked up on minor instructions in CAPE's primary ``AGENTS.md``
+about committing changes to ``git`` if possible. Gemma did not process that
+instruction at all; and here you can see a more advanced model working through
+the fact that it's in a sandbox folder such that the files are not tracked by
+``git``.
 
     .. figure:: figs/opencode118-confused.png
         :width: 6in
 
-        A moment of confusion
+        A moment of confusion--and resolution
 
-It then analyzed the flow histories to judge convergence.
+After following the other instructions, including submitting the cases and
+running ``cape wait``, it utilized several methods to assess convergence,
+including CAPE's built-in heuristic from ``cape get-col-state``.
 
     .. figure:: figs/opencode120-analyze.png
         :width: 6in
 
         Analyzing the results
 
+The ``cape get-subfig`` command is the best option for agents to actually
+*look* at plots in a fashion very similar to human-in-the-loop analysis. At the
+time this sample was collected ``cape get-subfig`` did not convert the PDFs to
+raster images (required for most vision-enabled Large Language Models), so the
+agent did that on its own with a call to ``pdftoppm``. You can then see the
+reasoning after viewing the result. It seems very reasonable, but models
+presumably don't get exhausted if they have to do this for 100s of cases.
+
     .. figure:: figs/opencode122-analyze.png
         :width: 6in
 
         More analysis
+
+Unlike Gemma, this model found reason to extend some of the cases, which it did
+and then reentered the ``cape wait`` loop.
 
     .. figure:: figs/opencode125-extend.png
         :width: 6in
 
         Extending cases that had not converged
 
+Eventually, the agent declared all cases complete. Interestingly, not every
+case was run the same number of iterations. This was intended! The idea is that
+CAPE can minimize CPU/GPU resources while still ensuring each case meets the
+pre-declared convergence criteria. And, of course, this time the model didn't
+forget to run the post-processing step.
+
     .. figure:: figs/opencode140-done.png
         :width: 6in
 
         All cases complete
 
-The end result was the same run matrix completed and analyzed, with
-considerably less effort on my part than the manual version of this tutorial.
