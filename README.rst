@@ -51,13 +51,11 @@ Then we run a special command to prepare to use CAPE in fully-autonomous mode.
 
         $ cape init-agent
 
-This creates two files: :ref:`AGENTS.md <agents-md>` and ``ANALYSIS.md``.
-
-The contents of ``AGENTS.md`` are quite simple:
+This creates two files: ``AGENTS.md`` and ``ANALYSIS.md``. The contents of
+``AGENTS.md`` are quite simple:
 
     .. code-block:: markdown
         :caption: AGENTS.md
-        :name: agents-md
 
         ## CAPE
 
@@ -68,23 +66,76 @@ The contents of ``AGENTS.md`` are quite simple:
 
         The analysis-specific objective and practices are in `ANALYSIS.md`
 
+This ``AGENTS.md`` points the model and harness to the longer instructions that
+apply to all solver modules in CAPE and describe how to use CAPE to run CFD
+(and how to discover more documentation). For users who already have an
+``AGENTS.md`` file in their run repo, this section will be appended (unless
+there's already a Markdown session entitled "CAPE"). ``AGENTS.md`` is a fairly
+standard file name that most harnesses will recognize in some way, possibly
+even telling the model to read it by default. ``ANALYSIS.md``, however, not an
+industry-wide standard, and so the ``AGENTS.md`` file calls it out.
+
+After running ``cape init-agent``, you will see a template file that looks like
+this:
+
+    .. code-block:: md
+
+        # Analysis objective
+
+        Describe what this analysis is intended to determine.
+
+        # Procedure
+
+        Describe anything special about the run procedure you want the agent to follow.
+        The agent will already know how to do basic CAPE procedures, but if you have
+        any special instructions for handling errors, what settings can be altered,
+        etc., place them here.
+
+        # Completion criteria
+
+        Describe what constitutes a successful analysis that can be approved. Leaving
+        this section blank by design will leave the decision open to the model you are
+        serving, provided it has vision capability.
+
+        Examples:
+        - Converge to a steady state up to 15000 iterations for every case
+        - Accept a limit cycle oscillation with steady or shrinking amplitude for cases
+        with unsteady/time-accurate inputs **only**; do not go beyond 20,000
+        iterations.
+        - Accept the recommendations of `cape get-case-state` up to a hard limit of
+        30,000 iterations.
+        - Accept the recommendations of `cape get-col-state` for each reported
+        subfigure; approve cases that are close after 20,000 iterations and use
+        30,000 iterations as a hard cutoff.
+
+This obviously has template information and is the file where CFD subject
+matter experts can customize how CAPE behaves. The **Completion criteria** in
+particular may be different from one solver and run matrix to another.
+
+An example filled-out ``ANALYSIS.md`` file is present in the repo. You can just
+copy it into the ``work/`` folder ... or add your own comments to it.
+
+
+Using Gemma 4 31B
+-----------------
+
+The first attempt used Gemma 4 31B as the model. Below is a screenshot of the
+prompt tried (which was eventually successful).
+
     .. figure:: figs/opencode-startup.png
         :width: 6in
 
         OpenCode at startup in the demo folder
 
 What the agent was asked to do is written down in ``ANALYSIS.md``: check the
-run matrix, create a new configuration with its own run matrix and PBS
-resource requests, submit all four cases to the queue, and then enter a
-monitor-and-extend loop until every case met the convergence criteria.  The
-screenshots below show how the two runs went.
+run matrix, create a new configuration with its own run matrix and PBS resource
+requests, submit all four cases to the queue, and then enter a loop of
+monitoring and extending or approving until every case met the convergence
+criteria.  The screenshots below show how the two runs went.
 
-
-Using Gemma 4 31B
------------------
-
-The first attempt used Gemma 4 31B as the model.  OpenCode began by inspecting
-the files and asking permission before running commands.
+Gemma began by inspecting the files and asking permission before running
+commands. Because the CAPE primary ``AGENTS.md`` file is located outside the
+run repo, OpenCode tells Gemma to ask for permission first.
 
     .. figure:: figs/opencode10-permission.png
         :width: 6in
